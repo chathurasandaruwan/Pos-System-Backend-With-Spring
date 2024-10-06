@@ -1,6 +1,5 @@
 package lk.ijse.possystembackendwithspring.dto;
 
-import lk.ijse.possystembackend.entity.Order;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
