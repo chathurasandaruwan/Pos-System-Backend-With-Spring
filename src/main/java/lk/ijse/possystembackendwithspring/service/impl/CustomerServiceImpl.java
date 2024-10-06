@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -41,7 +42,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public ArrayList<CustomerDTO> getAllCustomers() {
-        return null;
+    public List<CustomerDTO> getAllCustomers() {
+        List<Customer> customers = customerDAO.findAll();
+        return mapping.asCustomerDTOList(customers);
     }
 }
