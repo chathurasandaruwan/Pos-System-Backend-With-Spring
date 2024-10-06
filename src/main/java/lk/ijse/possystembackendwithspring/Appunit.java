@@ -1,18 +1,19 @@
 package lk.ijse.possystembackendwithspring;
 
-import jakarta.servlet.MultipartConfigElement;
-import jakarta.servlet.ServletRegistration;
+
+import lk.ijse.possystembackendwithspring.config.WebAppConfig;
+import lk.ijse.possystembackendwithspring.config.WebAppRootConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class Appunit extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{};
+        return new Class[]{WebAppRootConfig.class};
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return null;
+        return new Class[]{WebAppConfig.class};
     }
 
     @Override
