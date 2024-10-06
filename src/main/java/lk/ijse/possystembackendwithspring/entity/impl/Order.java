@@ -14,10 +14,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Table(name = "orders")
 public class Order implements SuperEntity {
     @Id
     String order_id;
-    String item_code;
     String order_date;
     String qty;
 
