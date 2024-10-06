@@ -15,5 +15,5 @@ public class Order {
     String order_id;
     String item_code;
     String order_date;
-    String customer_id;
+    String qty;
 }
