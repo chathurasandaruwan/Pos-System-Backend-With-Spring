@@ -1,6 +1,7 @@
 package lk.ijse.possystembackendwithspring.controller;
 
 import lk.ijse.possystembackendwithspring.dto.CustomerDTO;
+import lk.ijse.possystembackendwithspring.exeption.CustomerNotFoundException;
 import lk.ijse.possystembackendwithspring.exeption.DataPersistException;
 import lk.ijse.possystembackendwithspring.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,24 @@ public class CustomerController {
         }
     }
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<CustomerDTO> getAllNotes() {
+    public List<CustomerDTO> getAllCustomers() {
         return customerService.getAllCustomers();
+    }
+    @PutMapping(value = "/{customerId}")
+    public ResponseEntity<Void> updateCustomer(@PathVariable("customerId") String customerId,@RequestBody CustomerDTO customerDTO) {
+        try {
+            if(customerDTO == null){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            customerService.updateCustomer(customerDTO,customerId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (CustomerNotFoundException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

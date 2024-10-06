@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lk.ijse.possystembackendwithspring.dao.CustomerDAO;
 import lk.ijse.possystembackendwithspring.dto.CustomerDTO;
 import lk.ijse.possystembackendwithspring.entity.impl.Customer;
+import lk.ijse.possystembackendwithspring.exeption.CustomerNotFoundException;
 import lk.ijse.possystembackendwithspring.exeption.DataPersistException;
 import lk.ijse.possystembackendwithspring.service.CustomerService;
 import lk.ijse.possystembackendwithspring.util.AppUtil;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -33,7 +35,14 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void updateCustomer(CustomerDTO dto, String id) {
-
+        Optional<Customer> findCustomer = customerDAO.findById(id);
+        if (!findCustomer.isPresent()) {
+            throw new CustomerNotFoundException("Note not found");
+        }else {
+            findCustomer.get().setCustomerName(dto.getCustomerName());
+            findCustomer.get().setCustomerAdd(dto.getCustomerAdd());
+            findCustomer.get().setCustomerSalary(dto.getCustomerSalary());
+        }
     }
 
     @Override
