@@ -12,7 +12,6 @@ import lk.ijse.possystembackendwithspring.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +36,7 @@ public class CustomerServiceImpl implements CustomerService {
     public void updateCustomer(CustomerDTO dto, String id) {
         Optional<Customer> findCustomer = customerDAO.findById(id);
         if (!findCustomer.isPresent()) {
-            throw new CustomerNotFoundException("Note not found");
+            throw new CustomerNotFoundException("Customer not found");
         }else {
             findCustomer.get().setCustomerName(dto.getCustomerName());
             findCustomer.get().setCustomerAdd(dto.getCustomerAdd());
@@ -47,7 +46,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void deleteCustomer(String id) {
-
+        Optional<Customer> SelectedCustomer = customerDAO.findById(id);
+        if (!SelectedCustomer.isPresent()) {
+            throw new CustomerNotFoundException("Customer Not Found");
+        } else {
+            customerDAO.deleteById(id);
+        }
     }
 
     @Override
