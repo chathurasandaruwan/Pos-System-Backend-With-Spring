@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
-@EnableJpaRepositories()
+@EnableJpaRepositories(basePackages = "lk.ijse.possystembackendwithspring.dao")
 @EnableTransactionManagement
 @Configuration
 @ComponentScan(basePackages = "lk.ijse")
