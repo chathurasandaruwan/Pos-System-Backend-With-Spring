@@ -5,7 +5,9 @@ import lk.ijse.possystembackendwithspring.dao.ItemDAO;
 import lk.ijse.possystembackendwithspring.dto.ItemDTO;
 import lk.ijse.possystembackendwithspring.entity.impl.Customer;
 import lk.ijse.possystembackendwithspring.entity.impl.Item;
+import lk.ijse.possystembackendwithspring.exeption.CustomerNotFoundException;
 import lk.ijse.possystembackendwithspring.exeption.DataPersistException;
+import lk.ijse.possystembackendwithspring.exeption.ItemNotFoundException;
 import lk.ijse.possystembackendwithspring.service.ItemService;
 import lk.ijse.possystembackendwithspring.util.AppUtil;
 import lk.ijse.possystembackendwithspring.util.Mapping;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -34,7 +37,14 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void updateItem(ItemDTO dto, String id) {
-
+        Optional<Item> findItem = itemDAO.findById(id);
+        if (!findItem.isPresent()) {
+            throw new ItemNotFoundException("Item not found");
+        }else {
+            findItem.get().setItem_Name(dto.getItem_Name());
+            findItem.get().setItem_price(dto.getItem_price());
+            findItem.get().setItem_qty(dto.getItem_qty());
+        }
     }
 
     @Override
