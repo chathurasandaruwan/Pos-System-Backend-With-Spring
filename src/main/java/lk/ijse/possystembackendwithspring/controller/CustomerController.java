@@ -50,7 +50,7 @@ public class CustomerController {
         }
     }
     @DeleteMapping("/{customerId}")
-    public ResponseEntity<Void> deleteNote(@PathVariable("customerId") String customerId) {
+    public ResponseEntity<Void> deleteCustomer(@PathVariable("customerId") String customerId) {
         try {
             customerService.deleteCustomer(customerId);
             return new ResponseEntity<>(HttpStatus.OK);
