@@ -10,8 +10,10 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderRequest {
+public class OrderRequestDTO {
     private String orderId;
+    private String orderDate;
     private int qty;
-    private List<Item> items;
+    private String customerId;
+    private List<ItemDTO> items;
 }
