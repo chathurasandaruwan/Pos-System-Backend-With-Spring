@@ -21,7 +21,7 @@ public class Order implements SuperEntity {
     String order_date;
     String qty;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
 

@@ -4,9 +4,9 @@ import java.util.UUID;
 
 public class AppUtil {
     public static String generateCustomerId() {
-        return "C00-"+ UUID.randomUUID();
+        return "CID-"+ UUID.randomUUID();
     }
     public static String generateItemId() {
-        return "I00-"+ UUID.randomUUID();
+        return "IID-"+ UUID.randomUUID();
     }
 }

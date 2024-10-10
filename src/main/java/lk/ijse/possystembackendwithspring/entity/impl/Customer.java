@@ -1,13 +1,12 @@
 package lk.ijse.possystembackendwithspring.entity.impl;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lk.ijse.possystembackendwithspring.entity.SuperEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -19,6 +18,7 @@ public class Customer implements SuperEntity {
     String customerName;
     String customerAdd;
     String customerSalary;
-    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
-    private Order order;
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<Order> orders;
+
 }
