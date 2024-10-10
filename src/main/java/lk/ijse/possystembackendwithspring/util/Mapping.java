@@ -52,6 +52,10 @@ public class Mapping {
         List<ItemDTO> itemDTOList = mapper.map(itemList, new TypeToken<List<ItemDTO>>(){}.getType());
         return itemDTOList;
     }
+    public List<OrderDTO> asOrderDTOList(List<Order> orderList){
+        List<OrderDTO> orderDTOList = mapper.map(orderList, new TypeToken<List<OrderDTO>>(){}.getType());
+        return orderDTOList;
+    }
 
     public List<Item> asItemEntityList(List<ItemDTO> itemList){
         List<Item> itemEntityList = mapper.map(itemList, new TypeToken<List<Item>>(){}.getType());

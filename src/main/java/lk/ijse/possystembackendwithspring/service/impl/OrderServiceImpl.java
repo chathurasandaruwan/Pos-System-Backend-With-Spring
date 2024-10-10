@@ -8,11 +8,13 @@ import lk.ijse.possystembackendwithspring.dto.OrderDTO;
 import lk.ijse.possystembackendwithspring.entity.impl.Customer;
 import lk.ijse.possystembackendwithspring.entity.impl.Item;
 import lk.ijse.possystembackendwithspring.entity.impl.Order;
+import lk.ijse.possystembackendwithspring.exeption.DataPersistException;
 import lk.ijse.possystembackendwithspring.service.OrderService;
 import lk.ijse.possystembackendwithspring.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,15 +29,12 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private CustomerDAO customerDAO;
 
-
-
     @Transactional
     @Override
-    public Order saveOrder(OrderDTO orderDTO) {
+    public void saveOrder(OrderDTO orderDTO) {
 
         Order order = mapping.toOrderEntity(orderDTO);
         order.setItems(mapping.asItemEntityList(orderDTO.getItems()));
-
         Customer customer = customerDAO.findById(orderDTO.getCustomer().getCustomerId())
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
         order.setCustomer(customer);
@@ -43,6 +42,15 @@ public class OrderServiceImpl implements OrderService {
         order.setOrder_date(orderDTO.getOrderDate());
         order.setQty(String.valueOf(orderDTO.getQty()));
 
-        return orderDAO.save(order);
+        Order saveOder = orderDAO.save(order);
+        if (saveOder == null) {
+            throw new DataPersistException("Order Not Saved !!!");
+        }
+    }
+
+    @Override
+    public List<OrderDTO> getAllOrders() {
+        List<Order> all = orderDAO.findAll();
+        return mapping.asOrderDTOList(all);
     }
 }
