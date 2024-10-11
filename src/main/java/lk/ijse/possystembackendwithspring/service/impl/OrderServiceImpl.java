@@ -40,9 +40,6 @@ public class OrderServiceImpl implements OrderService {
         order.setCustomer(customer);
         System.out.println(orderDTO.getOrder_id());
         System.out.println(orderDTO.getQty());
-//        order.setOrder_id(orderDTO.getOrderId());
-//        order.setOrder_date(orderDTO.getOrderDate());
-//        order.setQty(orderDTO.getQty()));
 
         Order saveOder = orderDAO.save(order);
         if (saveOder == null) {

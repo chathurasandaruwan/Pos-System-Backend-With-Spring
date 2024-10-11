@@ -22,7 +22,6 @@ public class OrderController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> saveOrder(@RequestBody OrderDTO orderDTO) {
         try {
-            System.out.println(orderDTO.getOrder_id());
             orderService.saveOrder(orderDTO);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
@@ -34,6 +33,9 @@ public class OrderController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<OrderDTO> getAllOrders() {
         List<OrderDTO> allOrders = orderService.getAllOrders();
+        for (OrderDTO orderDTO : allOrders) {
+            System.out.println("From get order "+orderDTO.getOrder_id());
+        }
         return allOrders;
     }
 }
