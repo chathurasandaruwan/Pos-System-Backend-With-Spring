@@ -38,9 +38,11 @@ public class OrderServiceImpl implements OrderService {
         Customer customer = customerDAO.findById(orderDTO.getCustomer().getCustomerId())
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
         order.setCustomer(customer);
-        order.setOrder_id(orderDTO.getOrderId());
-        order.setOrder_date(orderDTO.getOrderDate());
-        order.setQty(String.valueOf(orderDTO.getQty()));
+        System.out.println(orderDTO.getOrder_id());
+        System.out.println(orderDTO.getQty());
+//        order.setOrder_id(orderDTO.getOrderId());
+//        order.setOrder_date(orderDTO.getOrderDate());
+//        order.setQty(orderDTO.getQty()));
 
         Order saveOder = orderDAO.save(order);
         if (saveOder == null) {

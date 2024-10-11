@@ -2,6 +2,7 @@ package lk.ijse.possystembackendwithspring.controller;
 
 import lk.ijse.possystembackendwithspring.dto.CustomerDTO;
 import lk.ijse.possystembackendwithspring.dto.OrderDTO;
+import lk.ijse.possystembackendwithspring.entity.impl.Order;
 import lk.ijse.possystembackendwithspring.exeption.DataPersistException;
 import lk.ijse.possystembackendwithspring.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,9 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> saveCustomer(@RequestBody OrderDTO orderDTO) {
+    public ResponseEntity<Void> saveOrder(@RequestBody OrderDTO orderDTO) {
         try {
-            System.out.println(orderDTO.getOrderId());
+            System.out.println(orderDTO.getOrder_id());
             orderService.saveOrder(orderDTO);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
@@ -32,6 +33,7 @@ public class OrderController {
     }
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<OrderDTO> getAllOrders() {
-        return orderService.getAllOrders();
+        List<OrderDTO> allOrders = orderService.getAllOrders();
+        return allOrders;
     }
 }
