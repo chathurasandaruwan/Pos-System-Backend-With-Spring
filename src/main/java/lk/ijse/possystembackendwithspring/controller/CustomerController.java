@@ -4,6 +4,8 @@ import lk.ijse.possystembackendwithspring.dto.CustomerDTO;
 import lk.ijse.possystembackendwithspring.exeption.CustomerNotFoundException;
 import lk.ijse.possystembackendwithspring.exeption.DataPersistException;
 import lk.ijse.possystembackendwithspring.service.CustomerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/customer")
 public class CustomerController {
+    static Logger logger =  LoggerFactory.getLogger(CustomerController.class);
     @Autowired
     private CustomerService customerService;
 
@@ -22,10 +25,13 @@ public class CustomerController {
     public ResponseEntity<Void> saveCustomer(@RequestBody CustomerDTO customerDTO) {
         try {
             customerService.saveCustomer(customerDTO);
+            logger.info("From saveCustomer: "+"Customer Saved Successfully !!!");
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
+            logger.warn("From saveCustomer: "+e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
+            logger.error("From saveCustomer: "+"Customer Not Saved !!!");
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
