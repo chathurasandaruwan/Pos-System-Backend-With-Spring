@@ -25,33 +25,38 @@ public class CustomerController {
     public ResponseEntity<Void> saveCustomer(@RequestBody CustomerDTO customerDTO) {
         try {
             customerService.saveCustomer(customerDTO);
-            logger.info("From saveCustomer: "+"Customer Saved Successfully !!!");
+            logger.info("From Customer: "+"Customer Saved Successfully !!!");
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
-            logger.warn("From saveCustomer: "+e.getMessage());
+            logger.warn("From Customer: "+e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
-            logger.error("From saveCustomer: "+"Customer Not Saved !!!");
+            logger.error("From Customer: "+"Customer Not Saved !!!");
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<CustomerDTO> getAllCustomers() {
+        logger.info("From Customer: "+"Customer Get Successfully !!!");
         return customerService.getAllCustomers();
     }
     @PutMapping(value = "/{customerId}")
     public ResponseEntity<Void> updateCustomer(@PathVariable("customerId") String customerId,@RequestBody CustomerDTO customerDTO) {
         try {
             if(customerDTO == null){
+                logger.warn("From Customer: "+"Customer Not Found !!!");
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             customerService.updateCustomer(customerDTO,customerId);
+            logger.info("From Customer: "+"Customer Updated Successfully !!!");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (CustomerNotFoundException e){
             e.printStackTrace();
+            logger.warn("From Customer: "+e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
             e.printStackTrace();
+            logger.error("From Customer: "+"Customer Not Updated !!!");
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -59,11 +64,15 @@ public class CustomerController {
     public ResponseEntity<Void> deleteCustomer(@PathVariable("customerId") String customerId) {
         try {
             customerService.deleteCustomer(customerId);
+            logger.info("From Customer: "+"Customer Deleted Successfully !!!");
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (CustomerNotFoundException e) {
             e.printStackTrace();
+            logger.warn("From Customer: "+e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }catch (Exception e){
+            e.printStackTrace();
+            logger.error("From Customer: "+"Customer Not Deleted !!!");
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
