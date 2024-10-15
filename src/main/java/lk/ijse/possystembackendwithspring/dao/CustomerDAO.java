@@ -7,6 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface CustomerDAO extends JpaRepository<Customer, String> {
-    Optional<Customer> findByTempId(String id);
+public interface CustomerDAO extends JpaRepository<Customer, String>,SupperDAO<Customer>{
 }
