@@ -37,7 +37,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void updateItem(ItemDTO dto, String id) {
-        Optional<Item> findItem = itemDAO.findById(id);
+        Optional<Item> findItem = itemDAO.findByTempId(id);
         if (!findItem.isPresent()) {
             throw new ItemNotFoundException("Item not found");
         }else {
@@ -49,11 +49,11 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void deleteItem(String id) {
-        Optional<Item> SelectedItem = itemDAO.findById(id);
+        Optional<Item> SelectedItem = itemDAO.findByTempId(id);
         if (!SelectedItem.isPresent()) {
             throw new ItemNotFoundException("Item Not Found");
         } else {
-            itemDAO.deleteById(id);
+            itemDAO.deleteById(SelectedItem.get().getItem_code());
         }
     }
 

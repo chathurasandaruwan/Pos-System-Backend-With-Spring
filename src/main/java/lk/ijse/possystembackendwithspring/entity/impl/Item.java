@@ -1,9 +1,6 @@
 package lk.ijse.possystembackendwithspring.entity.impl;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lk.ijse.possystembackendwithspring.entity.SuperEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +18,8 @@ public class Item implements SuperEntity{
     String item_Name;
     String item_price;
     String item_qty;
+    @Column(unique = true)
+    String tempId;
     @ManyToMany(mappedBy = "items", cascade = CascadeType.ALL)
     private List<Order> orders;
 }

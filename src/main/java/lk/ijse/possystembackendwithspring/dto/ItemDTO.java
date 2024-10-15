@@ -14,4 +14,5 @@ public class ItemDTO implements Serializable {
     String item_Name;
     String item_price;
     String item_qty;
+    String tempId;
 }
