@@ -34,7 +34,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void updateCustomer(CustomerDTO dto, String id) {
-        Optional<Customer> findCustomer = customerDAO.findById(id);
+        Optional<Customer> findCustomer = customerDAO.findByTempId(id);
+        System.out.println(findCustomer);
         if (!findCustomer.isPresent()) {
             throw new CustomerNotFoundException("Customer not found");
         }else {
@@ -46,11 +47,11 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void deleteCustomer(String id) {
-        Optional<Customer> SelectedCustomer = customerDAO.findById(id);
+        Optional<Customer> SelectedCustomer = customerDAO.findByTempId(id);
         if (!SelectedCustomer.isPresent()) {
             throw new CustomerNotFoundException("Customer Not Found");
         } else {
-            customerDAO.deleteById(id);
+            customerDAO.deleteById(SelectedCustomer.get().getCustomerId());
         }
     }
 

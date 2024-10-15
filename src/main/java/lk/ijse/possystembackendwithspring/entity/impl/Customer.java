@@ -18,6 +18,8 @@ public class Customer implements SuperEntity {
     String customerName;
     String customerAdd;
     String customerSalary;
+    @Column(unique = true)
+    String tempId;
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Order> orders;
 

@@ -14,4 +14,5 @@ public class CustomerDTO implements Serializable {
     String customerName;
     String customerAdd;
     String customerSalary;
+    String tempId;
 }
