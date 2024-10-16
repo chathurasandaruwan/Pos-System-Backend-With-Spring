@@ -13,6 +13,7 @@ public class OrderDTO {
     private String order_id;
     private String order_date;
     private String qty;
+    String tempId;
     private CustomerDTO customer;
     private List<ItemDTO> items;
 }

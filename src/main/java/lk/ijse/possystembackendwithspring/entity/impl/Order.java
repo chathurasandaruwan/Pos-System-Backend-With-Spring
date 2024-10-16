@@ -20,6 +20,8 @@ public class Order implements SuperEntity {
     String order_id;
     String order_date;
     String qty;
+    @Column(unique = true)
+    String tempId;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")

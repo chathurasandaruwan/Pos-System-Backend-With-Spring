@@ -4,18 +4,23 @@ import jakarta.transaction.Transactional;
 import lk.ijse.possystembackendwithspring.dao.CustomerDAO;
 import lk.ijse.possystembackendwithspring.dao.ItemDAO;
 import lk.ijse.possystembackendwithspring.dao.OrderDAO;
+import lk.ijse.possystembackendwithspring.dto.ItemDTO;
 import lk.ijse.possystembackendwithspring.dto.OrderDTO;
 import lk.ijse.possystembackendwithspring.entity.impl.Customer;
 import lk.ijse.possystembackendwithspring.entity.impl.Item;
 import lk.ijse.possystembackendwithspring.entity.impl.Order;
 import lk.ijse.possystembackendwithspring.exeption.DataPersistException;
 import lk.ijse.possystembackendwithspring.service.OrderService;
+import lk.ijse.possystembackendwithspring.util.AppUtil;
 import lk.ijse.possystembackendwithspring.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -29,17 +34,58 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private CustomerDAO customerDAO;
 
+    @Autowired
+    private ItemDAO itemDAO;
+
     @Transactional
     @Override
     public void saveOrder(OrderDTO orderDTO) {
-
         Order order = mapping.toOrderEntity(orderDTO);
-        order.setItems(mapping.asItemEntityList(orderDTO.getItems()));
-        Customer customer = customerDAO.findById(orderDTO.getCustomer().getCustomerId())
+        order.setOrder_id(AppUtil.generateOrderId());
+//        get Item TempIds
+        List<String> tempIds = orderDTO.getItems().stream()
+                .map(ItemDTO::getTempId)
+                .collect(Collectors.toList());
+        List<Item> itemList = itemDAO.findAllByTempIdIn(tempIds);
+        List<Item> itemsFromOrderDTO= mapping.asItemEntityList(orderDTO.getItems());
+
+      /*  // Create a map from itemsFromOrderDTO using tempId as key
+        Map<String, Item> itemsFromOrderDTOMap = itemsFromOrderDTO.stream()
+                .collect(Collectors.toMap(Item::getTempId, Function.identity()));
+
+// Iterate over itemList and update itemCode based on the matching tempId
+        for (Item item : itemList) {
+            Item itemFromDTO = itemsFromOrderDTOMap.get(item.getTempId());
+            if (itemFromDTO != null) {
+                item.setItem_qty(itemFromDTO.getItem_qty());
+            }
+        }*/
+
+        // Create a map from itemsFromOrderDTO using tempId as key
+        Map<String, Item> itemListMap = itemList.stream()
+                .collect(Collectors.toMap(Item::getTempId, Function.identity()));
+
+// Iterate over itemList and update itemCode based on the matching tempId
+        for (Item item : itemsFromOrderDTO) {
+            Item itemLists = itemListMap.get(item.getTempId());
+            if (itemLists != null) {
+                item.setItem_code(itemLists.getItem_code());
+            }
+        }
+
+
+
+
+//        itemsFromOrderDTO.forEach(item -> {
+//            item.setItem_code(itemList.forEach(i -> i.setTempId(item.getItem_code())));
+//        });
+
+
+
+        order.setItems(itemsFromOrderDTO);
+        Customer customer = customerDAO.findByTempId(orderDTO.getCustomer().getCustomerId())
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
         order.setCustomer(customer);
-        System.out.println(orderDTO.getOrder_id());
-        System.out.println(orderDTO.getQty());
 
         Order saveOder = orderDAO.save(order);
         if (saveOder == null) {
