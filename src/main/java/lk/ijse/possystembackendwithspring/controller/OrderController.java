@@ -1,8 +1,6 @@
 package lk.ijse.possystembackendwithspring.controller;
 
-import lk.ijse.possystembackendwithspring.dto.CustomerDTO;
 import lk.ijse.possystembackendwithspring.dto.OrderDTO;
-import lk.ijse.possystembackendwithspring.entity.impl.Order;
 import lk.ijse.possystembackendwithspring.exeption.DataPersistException;
 import lk.ijse.possystembackendwithspring.service.OrderService;
 import org.slf4j.Logger;

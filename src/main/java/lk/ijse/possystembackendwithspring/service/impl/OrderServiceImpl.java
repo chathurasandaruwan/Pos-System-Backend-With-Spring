@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -49,39 +48,17 @@ public class OrderServiceImpl implements OrderService {
         List<Item> itemList = itemDAO.findAllByTempIdIn(tempIds);
         List<Item> itemsFromOrderDTO= mapping.asItemEntityList(orderDTO.getItems());
 
-      /*  // Create a map from itemsFromOrderDTO using tempId as key
-        Map<String, Item> itemsFromOrderDTOMap = itemsFromOrderDTO.stream()
-                .collect(Collectors.toMap(Item::getTempId, Function.identity()));
-
-// Iterate over itemList and update itemCode based on the matching tempId
-        for (Item item : itemList) {
-            Item itemFromDTO = itemsFromOrderDTOMap.get(item.getTempId());
-            if (itemFromDTO != null) {
-                item.setItem_qty(itemFromDTO.getItem_qty());
-            }
-        }*/
-
-        // Create a map from itemsFromOrderDTO using tempId as key
+        // Create a map from itemList tempId as key
         Map<String, Item> itemListMap = itemList.stream()
                 .collect(Collectors.toMap(Item::getTempId, Function.identity()));
 
-// Iterate over itemList and update itemCode based on the matching tempId
+        // set Item codes to itemsFromOrderDTO based on tempId
         for (Item item : itemsFromOrderDTO) {
             Item itemLists = itemListMap.get(item.getTempId());
             if (itemLists != null) {
                 item.setItem_code(itemLists.getItem_code());
             }
         }
-
-
-
-
-//        itemsFromOrderDTO.forEach(item -> {
-//            item.setItem_code(itemList.forEach(i -> i.setTempId(item.getItem_code())));
-//        });
-
-
-
         order.setItems(itemsFromOrderDTO);
         Customer customer = customerDAO.findByTempId(orderDTO.getCustomer().getCustomerId())
                 .orElseThrow(() -> new RuntimeException("Customer not found"));

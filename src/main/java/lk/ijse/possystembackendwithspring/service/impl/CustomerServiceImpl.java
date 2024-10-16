@@ -25,7 +25,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void saveCustomer(CustomerDTO dto) {
         dto.setCustomerId(AppUtil.generateCustomerId());
-
         Customer savedCustomer = customerDAO.save(mapping.toCustomerEntity(dto));
         if (savedCustomer == null) {
             throw new DataPersistException("Customer Not Saved !!!");

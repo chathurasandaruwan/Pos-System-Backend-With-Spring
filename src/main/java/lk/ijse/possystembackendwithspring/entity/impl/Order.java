@@ -2,8 +2,6 @@ package lk.ijse.possystembackendwithspring.entity.impl;
 
 import jakarta.persistence.*;
 import lk.ijse.possystembackendwithspring.entity.SuperEntity;
-import lk.ijse.possystembackendwithspring.entity.impl.Customer;
-import lk.ijse.possystembackendwithspring.entity.impl.Item;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

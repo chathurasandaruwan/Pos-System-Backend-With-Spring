@@ -1,6 +1,5 @@
 package lk.ijse.possystembackendwithspring.controller;
 
-import lk.ijse.possystembackendwithspring.dto.CustomerDTO;
 import lk.ijse.possystembackendwithspring.dto.ItemDTO;
 import lk.ijse.possystembackendwithspring.exeption.CustomerNotFoundException;
 import lk.ijse.possystembackendwithspring.exeption.DataPersistException;
